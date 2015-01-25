@@ -1,9 +1,6 @@
 <?php
 
-$host = 'localhost';
-$dbname = 'catsinsp_meow';
-$uname='catsinsp_jeff';
-$pass='hellotea';
+require ("../db.php");
 
 $mysqli = new mysqli($host,$uname,$pass,$dbname);
 if ($mysqli->connect_errno) {
@@ -12,7 +9,7 @@ if ($mysqli->connect_errno) {
 echo $mysqli->host_info . "\n";
 require_once("phpFlickr.php");
 // Create new phpFlickr object
-$f = new phpFlickr("a8dd16dc4bc2d20ea2114fa1a1ba11a5","abea7c8a3d597896",false);
+$f = new phpFlickr("f90134fb1fe957aafff8e74c3f28908c","b20f6d84c45bbfc6",true);
 
 mysqli_set_charset($mysqli, "utf8");
 //for Goddard
@@ -20,11 +17,13 @@ $counter = 10;
 while ($counter >0)
 {
 $tags = "crew earth observation, Crew Earth Observation, Crew Earth Observations, earth";
+
 $photos_space = $f->photos_search(array("tags"=>$tags, "sort"=>"interestingness-desc","user_id"=>"28634332@N05", "tag_mode"=>"any", "extras"=>"owner_name, tags, description", "page"=>$counter ));
+var_dump($photos_space);
 
 foreach ((array)$photos_space['photo'] as $photo) {
 //preg_replace(‘/[^\pL\pN\pP\pS\pZ\pM]/u’, ”, substr($photo[description],0,300))
-$sql = "INSERT INTO `catsinsp_meow`.`imageinfo` (`id`, `serverid`, `farmid`, `secret`, `owner`, `upvotes`, `downvotes`, `star`, `tags`, `description`) VALUES ('".$photo[id]."', '".$photo[server]."', '".$photo[farm]."', '".$photo[secret]."', '".$photo[owner]."', 0 , 0, 0,'".$photo[tags]."', '".strip_tags(substr($photo[description],0,300))."');";
+$sql = "INSERT INTO `catsinsp_meow`.`imageinfo` (`id`, `serverid`, `farmid`, `secret`, `owner`, `tags`, `description`) VALUES ('".$photo[id]."', '".$photo[server]."', '".$photo[farm]."', '".$photo[secret]."', '".$photo[owner]."', '".$photo[tags]."', '".strip_tags(substr($photo[description],0,300))."');";
 $mysqli->query($sql);
 
 	echo "sql ".$sql;
@@ -43,16 +42,17 @@ $photos_space = $f->photos_search(array("tags"=>$tags, "sort"=>"interestingness-
 
 foreach ((array)$photos_space['photo'] as $photo) {
 //preg_replace(‘/[^\pL\pN\pP\pS\pZ\pM]/u’, ”, substr($photo[description],0,300))
-$sql = "INSERT INTO `catsinsp_meow`.`imageinfo` (`id`, `serverid`, `farmid`, `secret`, `owner`, `upvotes`, `downvotes`, `star`, `tags`, `description`) VALUES ('".$photo[id]."', '".$photo[server]."', '".$photo[farm]."', '".$photo[secret]."', '".$photo[owner]."', 0 , 0, 0,'".$photo[tags]."', '".strip_tags(substr($photo[description],0,300))."');";
+$sql = "INSERT INTO `catsinsp_meow`.`imageinfo` (`id`, `serverid`, `farmid`, `secret`, `owner`, `tags`, `description`) VALUES ('".$photo[id]."', '".$photo[server]."', '".$photo[farm]."', '".$photo[secret]."', '".$photo[owner]."', '".$photo[tags]."', '".strip_tags(substr($photo[description],0,300))."');";
 $mysqli->query($sql);
 
-	echo "sql ".$sql;
-	echo "";
 	}
 $counter--;
 }
  
 
  
+ echo $f->getErrorCode();
+ echo $f->getErrorMsg();
+ echo "done";
  
 ?>

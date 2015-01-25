@@ -41,6 +41,7 @@ upvote = VALUES(upvote),
 downvote = VALUES(downvote), 
 description = VALUES(description)");
 $stmt->bind_param("ssssssss",$_POST['up'], $_POST['down'],$_POST['id'],$_POST['description'], $_POST['serverid'],  $_POST['farmid'], $_POST['secret'], $session_var);
+echo ($stmt);
 $stmt->execute();
 
 
