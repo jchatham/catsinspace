@@ -1,4 +1,4 @@
-This is the front-end of an application that won my team a second place award for a NASA codeathon and the team, without myself, won first place during the next year. 
+This is the front-end of an application that won my team a second place award for a NASA codeathon and the team, without myself, won first place during the following year. 
 
 The application consists of a HTML frontend that places REST calls to the backend to allow voting on if a particular space image looks like a cat and displays the current count online. Used some free hosting plan, IIRC it was on AWS free tier. 
 
